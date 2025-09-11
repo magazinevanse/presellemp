@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Verificação – Carregando…</title>
+  <meta name="theme-color" content="#0ea5e9" />
+  <style>
+    :root{
+      --bg1:#0ea5e9; --bg2:#1d4ed8;
+      --ring:#e5e7eb; --accent:#1877f2;
+      --ok:#16a34a;
+      --size: 180px;            /* diâmetro do anel */
+      --thickness: 10px;        /* espessura do anel */
+      --p: 0;                   /* progresso 0..100 (JS atualiza) */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; min-height:100svh;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Ubuntu,"Noto Sans",sans-serif;
+      background:linear-gradient(160deg,var(--bg1),var(--bg2));
+      display:flex; align-items:center; justify-content:center;
+      color:#0f172a; padding:20px;
+    }
+    .wrap{
+      width:min(100%,420px);
+      background:#fff; border-radius:20px; padding:28px 24px 30px;
+      box-shadow:0 14px 40px rgba(2,6,23,.25); text-align:center;
+      animation:pop .35s ease;
+    }
+    @keyframes pop{from{transform:translateY(8px);opacity:.0}to{transform:translateY(0);opacity:1}}
+    .msg{font-weight:700; line-height:1.3; margin:0 0 18px;}
+    .muted{font-size:12px; color:#475569; margin-top:12px}
+
+    /* --- Círculo de progresso --- */
+    .ring{
+      width:var(--size); height:var(--size); margin:0 auto; position:relative;
+      display:grid; place-items:center; border-radius:50%;
+      background:
+        conic-gradient(var(--accent) calc(var(--p)*1%), transparent 0),
+        radial-gradient(closest-side, #fff calc(50% - var(--thickness)), transparent 0),
+        radial-gradient(closest-side, var(--ring) calc(50% - var(--thickness) + 1px), transparent 0);
+      transition:background .2s linear;
+    }
+    .dot{position:absolute; inset:0; display:block; animation:spin 1.2s linear infinite; filter:drop-shadow(0 2px 4px rgba(2,6,23,.25));}
+    .dot::after{
+      content:""; position:absolute; width:14px; height:14px; border-radius:50%;
+      background:var(--accent);
+      top:calc(50% - 7px); left:calc(50% - ((var(--size)/2) - var(--thickness)/2) - 7px);
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .core{
+      width:calc(var(--size) - var(--thickness)*2 - 14px);
+      height:calc(var(--size) - var(--thickness)*2 - 14px);
+      border-radius:50%; background:#fff; display:grid; place-items:center;
+      overflow:hidden; position:relative; z-index:1;
+    }
+    .core img{width:56%; height:56%; object-fit:contain; transition:opacity .25s ease, transform .25s ease;}
+
+    .done .ring{
+      background:
+        conic-gradient(var(--ok) 100%, transparent 0),
+        radial-gradient(closest-side, #fff calc(50% - var(--thickness)), transparent 0),
+        radial-gradient(closest-side, #bbf7d0 calc(50% - var(--thickness) + 1px), transparent 0);
+    }
+    .pulse{animation:pulse .6s ease-out forwards;}
+    @keyframes pulse{
+      0%{transform:scale(1); box-shadow:0 0 0 0 rgba(22,163,74,.35)}
+      70%{transform:scale(1.05); box-shadow:0 0 0 16px rgba(22,163,74,.0)}
+      100%{transform:scale(1)}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main" aria-labelledby="msg">
+    <h1 id="msg" class="msg" aria-live="polite">Verificando sua identidade...</h1>
+
+    <div id="progressWrap" class="ring" aria-label="Progresso de verificação">
+      <span class="dot" aria-hidden="true"></span>
+      <div class="core" id="core">
+        <!-- Ícone de pessoa -->
+        <img id="icon" alt="Carregando verificação" src="https://cdn-icons-png.flaticon.com/512/237/237131.png" />
+      </div>
+    </div>
+
+    <p class="muted" id="hint">Validando dados…</p>
+  </main>
+
+  <script>
+    (function(){
+      const ring = document.querySelector('.ring');
+      const icon = document.getElementById('icon');
+      const core = document.getElementById('core');
+      const msg = document.getElementById('msg');
+      const hint = document.getElementById('hint');
+
+      const DURATION_MS = 2600;           // duração do preenchimento
+      const REDIRECT_DELAY_MS = 1000;     // 1s após concluir
+      const REDIRECT_URL = "https://presellemp.vercel.app/obg.html";
+      const VERIFIED_ICON = "https://cdn-icons-png.flaticon.com/512/6711/6711626.png";
+
+      const start = performance.now();
+
+      function frame(now){
+        const t = Math.min(1, (now - start) / DURATION_MS);
+        const pct = Math.round(t * 100);
+        ring.style.setProperty('--p', pct);
+        hint.textContent = pct < 100 ? `Validando dados… ${pct}%` : 'Concluído';
+        if (t < 1){
+          requestAnimationFrame(frame);
+        } else {
+          finish();
+        }
+      }
+
+      function finish(){
+        // Troca o ícone e textos
+        icon.style.opacity = '0';
+        icon.style.transform = 'scale(0.9)';
+        setTimeout(()=>{
+          icon.src = VERIFIED_ICON;
+          icon.alt = "Identidade verificada";
+          icon.style.opacity = '1';
+          icon.style.transform = 'scale(1)';
+          document.body.classList.add('done');
+          core.classList.add('pulse');
+          msg.textContent = 'Identidade verificada.';
+          hint.textContent = 'Verificado com segurança. Redirecionando…';
+          // Redireciona após 1s
+          setTimeout(()=>{ window.location.assign(REDIRECT_URL); }, REDIRECT_DELAY_MS);
+        }, 220);
+      }
+
+      requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
