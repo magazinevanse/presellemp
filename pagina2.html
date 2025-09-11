@@ -59,17 +59,13 @@
     .section h3{margin:0 0 12px;font-size:18px}
 
     .radios{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-    .radio{
-      display:flex;align-items:center;gap:10px;padding:12px;border:1px solid rgba(15,23,42,.10);border-radius:12px;background:#fff;cursor:pointer
-    }
+    .radio{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid rgba(15,23,42,.10);border-radius:12px;background:#fff;cursor:pointer}
     .radio input{accent-color:#2563eb;width:18px;height:18px}
 
     .filebox{padding:14px;background:#fff;border:1px dashed rgba(15,23,42,.18);border-radius:12px}
 
     .actions{display:flex;justify-content:flex-end}
-    .btn{
-      appearance:none;border:0;cursor:pointer;background:#1d4ed8;color:#fff;border-radius:12px;padding:12px 18px;font-weight:800;font-size:16px;display:inline-flex;align-items:center;gap:8px
-    }
+    .btn{appearance:none;border:0;cursor:pointer;background:#1d4ed8;color:#fff;border-radius:12px;padding:12px 18px;font-weight:800;font-size:16px;display:inline-flex;align-items:center;gap:8px}
     .btn:hover{filter:brightness(1.05)}
     .btn:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
 
@@ -101,6 +97,15 @@
           <label class="radio" for="doc_pass"><input id="doc_pass" name="doctype" type="radio" value="PASSAPORTE" /> Passaporte</label>
         </div>
         <div id="err" class="error">Selecione um tipo de documento para continuar.</div>
+      </div>
+
+      <div class="section" role="group" aria-labelledby="timelabel">
+        <h3 id="timelabel">Melhor horário para contato</h3>
+        <div class="radios">
+          <label class="radio" for="hr_manha"><input id="hr_manha" name="besttime" type="radio" value="Manhã" /> Manhã</label>
+          <label class="radio" for="hr_tarde"><input id="hr_tarde" name="besttime" type="radio" value="Tarde" /> Tarde</label>
+          <label class="radio" for="hr_noite"><input id="hr_noite" name="besttime" type="radio" value="Noite" /> Noite</label>
+        </div>
       </div>
 
       <div class="section">
@@ -142,10 +147,12 @@
         }
         try{
           const url = new URL(nextBase);
-          // repassar UTMs e anexar doc_type
+          // repassar UTMs e anexar doc_type + besttime (se houver)
           const paramsHere = new URLSearchParams(window.location.search);
           paramsHere.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
           url.searchParams.set('doc_type', type);
+          const best = document.querySelector('input[name="besttime"]:checked');
+          if(best) url.searchParams.set('best_time', best.value);
           window.location.assign(url.toString()); // mesma aba
         }catch(e){
           window.location.assign(nextBase);
