@@ -15,12 +15,12 @@
   <meta property="og:url" content="" />
   <style>
     :root{
-      --bg1:#0ea5e9; /* sky-500 */
-      --bg2:#1d4ed8; /* indigo-700 */
+      --bg1:#0ea5e9;
+      --bg2:#1d4ed8;
       --card:#ffffff;
-      --text:#0f172a; /* slate-900 */
-      --muted:#475569; /* slate-600 */
-      --ring:#93c5fd; /* blue-300 */
+      --text:#0f172a;
+      --muted:#475569;
+      --ring:#93c5fd;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -72,7 +72,7 @@
     @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
   </style>
 </head>
-<body data-home="https://facebook.com">
+<body>
   <main class="card" role="main" aria-labelledby="t">
     <header class="header">
       <span class="tag" aria-label="etiqueta">
@@ -80,7 +80,7 @@
         Confirmação recebida
       </span>
       <h1 class="title" id="t">Obrigado pelas informações!</h1>
-      <p class="subtitle">Em breve entraremos em contato via e‑mail.</p>
+      <p class="subtitle">Em breve entraremos em contato via e-mail.</p>
     </header>
 
     <section class="content">
@@ -92,8 +92,9 @@
       <p class="muted">Nossa equipe analisará suas informações e, se necessário, retornará com instruções adicionais.</p>
 
       <div class="actions">
-        <button id="backBtn" class="btn secondary" type="button">Voltar</button>
-        <a id="homeBtn" class="btn" href="#">Ir para a página inicial</a>
+        <!-- Ambos já levam para o Facebook, mesma aba, sem JS -->
+        <a class="btn secondary" href="https://facebook.com">Voltar</a>
+        <a class="btn" href="https://facebook.com">Ir para a página inicial</a>
       </div>
     </section>
 
@@ -104,25 +105,14 @@
   </main>
 
   <script>
+    // Script mantido só para mostrar o e-mail quando vier na URL
     (function(){
       const emailMsg = document.getElementById('emailMsg');
       const search = new URLSearchParams(location.search);
       const email = search.get('email') || search.get('e') || '';
       if(email){
-        emailMsg.innerHTML = `Recebemos seus dados. Entraremos em contato pelo e‑mail <strong>${email}</strong>.`;
+        emailMsg.innerHTML = `Recebemos seus dados. Entraremos em contato pelo e-mail <strong>${email}</strong>.`;
       }
-
-      const backBtn = document.getElementById('backBtn');
-      backBtn.addEventListener('click', () => { location.assign('https://facebook.com'); });
-
-      const home = 'https://facebook.com';
-      const homeBtn = document.getElementById('homeBtn');
-      homeBtn.href = home;
-      homeBtn.addEventListener('click', (e) => { e.preventDefault(); location.assign(home); });
-          e.preventDefault();
-          location.assign(url.toString());
-        }catch(err){ /* fallback */ }
-      });
     })();
   </script>
 </body>
