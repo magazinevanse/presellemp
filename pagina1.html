@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prévia – Google Forms (layout estático)</title>
+  <meta name="description" content="Layout estático que imita o Google Forms. Não envia dados." />
+  <meta name="theme-color" content="#673ab7" />
+  <style>
+    :root{
+      --bg1:#0ea5e9; /* sky-500 */
+      --bg2:#1d4ed8; /* indigo-700 */
+      --accent:#673ab7; /* roxo típico do Forms */
+      --accent-2:#845adc;
+      --text:#202124; /* Google-ish */
+      --muted:#5f6368; /* cinza texto secundário */
+      --card:#fff;
+      --divider:#e0e0e0;
+      --error:#d93025;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Ubuntu,"Noto Sans",sans-serif;
+      color:var(--text);
+      background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;
+      display:grid;place-items:center;
+      padding:clamp(12px,2vw,28px);
+    }
+
+    .card{width:min(100%, 760px);background:var(--card);border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,.20);overflow:hidden;border:1px solid rgba(0,0,0,.06)}
+    .header{background:linear-gradient(135deg,var(--accent),var(--accent-2));padding:28px}
+    .title{margin:0;color:#fff;font-weight:800;line-height:1.15;font-size:clamp(22px,4.2vw,32px)}
+    .desc{margin:10px 0 0;color:#efeafe;font-weight:500}
+
+    .preview-badge{display:flex;gap:8px;align-items:center;background:#ede7f6;color:#3c2a73;border:1px solid #d1c4e9;padding:10px 12px;border-radius:10px;margin-top:12px;font-size:13px}
+
+    .section{padding:22px 26px;border-top:8px solid var(--accent);}
+    .section h2{margin:0 0 8px;font-size:20px}
+    .section p{margin:0;color:var(--muted)}
+
+    .q{padding:18px 26px;border-top:1px solid var(--divider)}
+    .q:first-of-type{border-top:0}
+    .q .label{font-weight:600;margin:0 0 8px}
+    .q .req{color:var(--error);margin-left:6px}
+    .q small{display:block;color:var(--muted);margin-top:6px}
+
+    input[type="text"], textarea, select, input[type="date"], input[type="time"], .fake-file{
+      width:100%;border:1px solid #dadce0;border-radius:4px;padding:12px 14px;font-size:15px;background:#fff
+    }
+    textarea{min-height:110px;resize:vertical}
+
+    .choice{display:flex;align-items:center;gap:10px;margin:8px 0}
+    .choice input{accent-color:var(--accent)}
+
+    .actions{padding:22px 26px;border-top:1px solid var(--divider);display:flex;justify-content:flex-end}
+    .btn{appearance:none;border:0;background:var(--accent);color:#fff;border-radius:8px;padding:12px 18px;font-weight:800;font-size:15px;cursor:pointer}
+    .btn:hover{filter:brightness(1.05)}
+    .btn:focus-visible{outline:3px solid #c5b3ff;outline-offset:2px}
+
+    .note{padding:0 26px 22px;color:var(--muted);font-size:12px}
+
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#202124;color:#fff;padding:10px 14px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s ease}
+    .toast.show{opacity:1}
+
+    @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+    .illustration{padding:18px 26px;background:#fafbff;border-top:1px solid var(--divider);border-bottom:1px solid var(--divider)}
+    .illustration img{width:100%;height:auto;border-radius:12px;display:block;box-shadow:0 4px 18px rgba(0,0,0,.12)}
+  </style>
+</head>
+<body>
+  <form class="card" id="mockForm" novalidate>
+
+    <!-- Seção 1 -->
+    <div class="section">
+      <h2>Seção 1</h2>
+      <p>Informações básicas</p>
+    </div>
+
+    <div class="q">
+      <p class="label">Nome completo<span class="req">*</span></p>
+      <input type="text" placeholder="Digite seu nome" aria-required="true" />
+    </div>
+
+    <div class="q">
+      <p class="label">E‑mail<span class="req">*</span></p>
+      <input type="text" placeholder="voce@exemplo.com" aria-required="true" />
+      <small>Usado para contato durante o processo.</small>
+    </div>
+
+    <div class="q">
+      <p class="label">Fale brevemente sobre você</p>
+      <textarea placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <!-- Múltipla escolha -->
+    <div class="q">
+      <p class="label">Você tem 7 horas por dia disponíveis para Home Office?<span class="req">*</span></p>
+      <label class="choice"><input type="radio" name="q1" /> Sim</label>
+      <label class="choice"><input type="radio" name="q1" /> Não</label>
+    </div>
+<div class="q">
+      <p class="label">Poderia frequentar as nossas reuniões anuais do Facebook em São Paulo com tudo pago, incluindo passagem e hospedagem pela nossa empresa para fins de treinamento e aperfeiçoamento?<span class="req">*</span></p>
+      <label class="choice"><input type="radio" name="q2" /> Sim</label>
+      <label class="choice"><input type="radio" name="q2" /> Não</label>
+    </div>
+
+    <!-- Caixa de seleção -->
+    <div class="q">
+      <p class="label">Quais áreas você tem interesse?</p>
+      <label class="choice"><input type="checkbox" /> Comercial</label>
+      <label class="choice"><input type="checkbox" /> Suporte</label>
+      <label class="choice"><input type="checkbox" /> Marketing</label>
+      <label class="choice"><input type="checkbox" /> Operações</label>
+    </div>
+
+    <!-- Dropdown -->
+    <div class="q">
+      <p class="label">Disponibilidade de início</p>
+      <select>
+        <option>Imediata</option>
+        <option>Em 7 dias</option>
+        <option>Em 15 dias</option>
+        <option>Em 30 dias</option>
+      </select>
+    </div>
+
+    <!-- Data / Hora -->
+    <div class="q">
+      <p class="label">Data de nascimento</p>
+      <input type="date" />
+    </div>
+    <div class="q">
+      <p class="label">Melhor horário para contato</p>
+      <input type="time" />
+    </div>
+
+    <!-- Ações -->
+    <div class="actions">
+      <button class="btn" type="submit">Enviar</button>
+    </div>
+  </form>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">Prévia: nenhuma resposta foi enviada.</div>
+
+  <script>
+    (function(){
+      const form = document.getElementById('mockForm');
+      const toast = document.getElementById('toast');
+      // Comportamento "fake" para o upload
+      const fake = document.querySelector('.fake-file');
+      if(fake){
+        fake.addEventListener('click', ()=>{
+          toast.textContent = 'Prévia: selecionei um arquivo fictício.';
+          toast.classList.add('show');
+          setTimeout(()=>toast.classList.remove('show'), 1800);
+        });
+      }
+      form.addEventListener('submit', function(ev){
+        ev.preventDefault();
+        toast.textContent = 'Prévia: nenhuma resposta foi enviada.';
+        toast.classList.add('show');
+        setTimeout(()=>toast.classList.remove('show'), 2000);
+      });
+    })();
+  </script>
+</body>
+</html>
