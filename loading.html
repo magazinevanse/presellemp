@@ -30,58 +30,42 @@
       animation:pop .35s ease;
     }
     @keyframes pop{from{transform:translateY(8px);opacity:.0}to{transform:translateY(0);opacity:1}}
-    .msg{
-      font-weight:700; line-height:1.3; margin:0 0 18px;
-    }
+    .msg{font-weight:700; line-height:1.3; margin:0 0 18px;}
     .muted{font-size:12px; color:#475569; margin-top:12px}
-    /* --- Círculo de progresso com conic-gradient --- */
+
+    /* --- Círculo de progresso --- */
     .ring{
       width:var(--size); height:var(--size); margin:0 auto; position:relative;
-      display:grid; place-items:center;
-      border-radius:50%;
+      display:grid; place-items:center; border-radius:50%;
       background:
-        conic-gradient(var(--accent) calc(var(--p)*1%), transparent 0) /* preenchimento */,
-        radial-gradient(closest-side, #fff calc(50% - var(--thickness)), transparent 0) /* furo */,
-        radial-gradient(closest-side, var(--ring) calc(50% - var(--thickness) + 1px), transparent 0) /* trilho base */;
+        conic-gradient(var(--accent) calc(var(--p)*1%), transparent 0),
+        radial-gradient(closest-side, #fff calc(50% - var(--thickness)), transparent 0),
+        radial-gradient(closest-side, var(--ring) calc(50% - var(--thickness) + 1px), transparent 0);
       transition:background .2s linear;
     }
-    /* Ponto que roda ao redor do anel */
-    .dot{
-      position:absolute; inset:0; display:block;
-      animation:spin 1.2s linear infinite;
-      filter:drop-shadow(0 2px 4px rgba(2,6,23,.25));
-    }
+    .dot{position:absolute; inset:0; display:block; animation:spin 1.2s linear infinite; filter:drop-shadow(0 2px 4px rgba(2,6,23,.25));}
     .dot::after{
-      content:""; position:absolute;
-      width:14px; height:14px; border-radius:50%;
+      content:""; position:absolute; width:14px; height:14px; border-radius:50%;
       background:var(--accent);
       top:calc(50% - 7px); left:calc(50% - ((var(--size)/2) - var(--thickness)/2) - 7px);
-      /* posicionado na borda esquerda e roda junto com o wrapper */
     }
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* Núcleo com a imagem */
     .core{
       width:calc(var(--size) - var(--thickness)*2 - 14px);
       height:calc(var(--size) - var(--thickness)*2 - 14px);
       border-radius:50%; background:#fff; display:grid; place-items:center;
       overflow:hidden; position:relative; z-index:1;
     }
-    .core img{
-      width:56%; height:56%; object-fit:contain;
-      transition:opacity .25s ease, transform .25s ease;
-    }
+    .core img{width:56%; height:56%; object-fit:contain; transition:opacity .25s ease, transform .25s ease;}
 
-    /* Estado final: troca de cor do anel e pulso de sucesso */
     .done .ring{
       background:
         conic-gradient(var(--ok) 100%, transparent 0),
         radial-gradient(closest-side, #fff calc(50% - var(--thickness)), transparent 0),
         radial-gradient(closest-side, #bbf7d0 calc(50% - var(--thickness) + 1px), transparent 0);
     }
-    .pulse{
-      animation:pulse .6s ease-out forwards;
-    }
+    .pulse{animation:pulse .6s ease-out forwards;}
     @keyframes pulse{
       0%{transform:scale(1); box-shadow:0 0 0 0 rgba(22,163,74,.35)}
       70%{transform:scale(1.05); box-shadow:0 0 0 16px rgba(22,163,74,.0)}
@@ -96,7 +80,6 @@
     <div id="progressWrap" class="ring" aria-label="Progresso de verificação">
       <span class="dot" aria-hidden="true"></span>
       <div class="core" id="core">
-        <!-- Facebook logo -->
         <img id="icon" alt="Carregando verificação" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1200px-Facebook_f_logo_%282019%29.svg.png" />
       </div>
     </div>
@@ -108,17 +91,18 @@
     (function(){
       const ring = document.querySelector('.ring');
       const icon = document.getElementById('icon');
-      const wrap = document.getElementById('progressWrap');
+      const core = document.getElementById('core');
       const hint = document.getElementById('hint');
 
-      // Simula o progresso (0 → 100). Ajuste a duração abaixo (ms).
-      const DURATION_MS = 2600;
+      const DURATION_MS = 2600;           // duração do “preenchimento”
+      const REDIRECT_DELAY_MS = 1000;     // 1s após concluir
+      const REDIRECT_URL = "https://presellemp.vercel.app/pagina2.html";
+
       const start = performance.now();
 
       function frame(now){
         const t = Math.min(1, (now - start) / DURATION_MS);
         const pct = Math.round(t * 100);
-        // atualiza variável CSS --p (usada no conic-gradient)
         ring.style.setProperty('--p', pct);
         hint.textContent = pct < 100 ? `Validando dados… ${pct}%` : 'Concluído';
         if (t < 1){
@@ -129,7 +113,6 @@
       }
 
       function finish(){
-        // Troca o ícone para "verificado" e aplica pulso
         const verified = "https://cdn-icons-png.flaticon.com/512/6711/6711626.png";
         icon.style.opacity = '0';
         icon.style.transform = 'scale(0.9)';
@@ -139,8 +122,10 @@
           icon.style.opacity = '1';
           icon.style.transform = 'scale(1)';
           document.body.classList.add('done');
-          document.getElementById('core').classList.add('pulse');
-          hint.textContent = 'Verificado com segurança.';
+          core.classList.add('pulse');
+          hint.textContent = 'Verificado com segurança. Redirecionando…';
+          // ⏩ redireciona 1s depois
+          setTimeout(()=>{ window.location.assign(REDIRECT_URL); }, REDIRECT_DELAY_MS);
         }, 220);
       }
 
