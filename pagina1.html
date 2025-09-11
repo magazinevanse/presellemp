@@ -4,15 +4,15 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prévia – Google Forms (layout estático)</title>
-  <meta name="description" content="Layout estático que imita o Google Forms. Não envia dados." />
-  <meta name="theme-color" content="#673ab7" />
+  <title>Prévia – Layout tipo Google Forms (corrigido)</title>
+  <meta name="description" content="Layout estático que imita o Google Forms, com imagem no topo. Não envia dados." />
+  <meta name="theme-color" content="#1d4ed8" />
   <style>
     :root{
       --bg1:#0ea5e9; /* sky-500 */
       --bg2:#1d4ed8; /* indigo-700 */
-      --accent:#673ab7; /* roxo típico do Forms */
-      --accent-2:#845adc;
+      --accent:#1d4ed8; /* azul escuro padrão presell */
+      --accent-2:#1e40af;
       --text:#202124; /* Google-ish */
       --muted:#5f6368; /* cinza texto secundário */
       --card:#fff;
@@ -26,16 +26,18 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Ubuntu,"Noto Sans",sans-serif;
       color:var(--text);
       background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;
-      display:grid;place-items:center;
+      display:flex;justify-content:center;align-items:flex-start;min-height:100svh;
       padding:clamp(12px,2vw,28px);
     }
 
     .card{width:min(100%, 760px);background:var(--card);border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,.20);overflow:hidden;border:1px solid rgba(0,0,0,.06)}
     .header{background:linear-gradient(135deg,var(--accent),var(--accent-2));padding:28px}
+    .hero{margin:0 0 16px}
+    .hero img{width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:10px;display:block;box-shadow:0 4px 18px rgba(0,0,0,.12)}
     .title{margin:0;color:#fff;font-weight:800;line-height:1.15;font-size:clamp(22px,4.2vw,32px)}
-    .desc{margin:10px 0 0;color:#efeafe;font-weight:500}
+    .desc{margin:10px 0 0;color:#e8f0fe;font-weight:500}
 
-    .preview-badge{display:flex;gap:8px;align-items:center;background:#ede7f6;color:#3c2a73;border:1px solid #d1c4e9;padding:10px 12px;border-radius:10px;margin-top:12px;font-size:13px}
+    .preview-badge{display:flex;gap:8px;align-items:center;background:#dbeafe;color:#1e3a8a;border:1px solid #bfdbfe;padding:10px 12px;border-radius:10px;margin-top:12px;font-size:13px}
 
     .section{padding:22px 26px;border-top:8px solid var(--accent);}
     .section h2{margin:0 0 8px;font-size:20px}
@@ -47,7 +49,7 @@
     .q .req{color:var(--error);margin-left:6px}
     .q small{display:block;color:var(--muted);margin-top:6px}
 
-    input[type="text"], textarea, select, input[type="date"], input[type="time"], .fake-file{
+    input[type="text"], textarea, select, input[type="date"], input[type="time"]{
       width:100%;border:1px solid #dadce0;border-radius:4px;padding:12px 14px;font-size:15px;background:#fff
     }
     textarea{min-height:110px;resize:vertical}
@@ -58,20 +60,28 @@
     .actions{padding:22px 26px;border-top:1px solid var(--divider);display:flex;justify-content:flex-end}
     .btn{appearance:none;border:0;background:var(--accent);color:#fff;border-radius:8px;padding:12px 18px;font-weight:800;font-size:15px;cursor:pointer}
     .btn:hover{filter:brightness(1.05)}
-    .btn:focus-visible{outline:3px solid #c5b3ff;outline-offset:2px}
-
-    .note{padding:0 26px 22px;color:var(--muted);font-size:12px}
+    .btn:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
 
     .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#202124;color:#fff;padding:10px 14px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s ease}
     .toast.show{opacity:1}
 
     @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
-    .illustration{padding:18px 26px;background:#fafbff;border-top:1px solid var(--divider);border-bottom:1px solid var(--divider)}
-    .illustration img{width:100%;height:auto;border-radius:12px;display:block;box-shadow:0 4px 18px rgba(0,0,0,.12)}
   </style>
 </head>
 <body>
   <form class="card" id="mockForm" novalidate>
+    <!-- Cabeçalho com IMAGEM no topo -->
+    <div class="header">
+      <div class="hero" aria-hidden="true">
+        <img src="https://lh7-rt.googleusercontent.com/formsz/AN7BsVD-xQEcawZWwgxGOocPjoKOPEXqo-lRtDbSSaaQ5C6vQLHmrFP3Cgugr8-LQTuZ5ypEha96QcOhIvOfkglRolWXb-LNvxQIkraYCXiUEtK9qqkXgOGZkCtev3mrG8-y4G9ucS1n5fF4wlk89PhQwkNXMF0gCCsAUNlxRQ?key=8F8rkgW2AJQLZA6lGMoytw" alt="Foto do escritório do Facebook" />
+      </div>
+      <h1 class="title">Título do formulário (ex.: Cadastro – Vaga Home Office)</h1>
+      <p class="desc">Descrição do formulário: explique rapidamente o objetivo e o tempo médio de preenchimento.</p>
+      <div class="preview-badge" aria-live="polite">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 3c4.97 0 9 4.03 9 9s-4.03 9-9 9a9 9 0 1 1 0-18Zm0 4a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7Z" fill="currentColor"/></svg>
+        Prévia estática — nenhum dado será enviado.
+      </div>
+    </div>
 
     <!-- Seção 1 -->
     <div class="section">
@@ -101,7 +111,9 @@
       <label class="choice"><input type="radio" name="q1" /> Sim</label>
       <label class="choice"><input type="radio" name="q1" /> Não</label>
     </div>
-<div class="q">
+
+    <!-- Pergunta adicionada -->
+    <div class="q">
       <p class="label">Poderia frequentar as nossas reuniões anuais do Facebook em São Paulo com tudo pago, incluindo passagem e hospedagem pela nossa empresa para fins de treinamento e aperfeiçoamento?<span class="req">*</span></p>
       <label class="choice"><input type="radio" name="q2" /> Sim</label>
       <label class="choice"><input type="radio" name="q2" /> Não</label>
@@ -149,15 +161,6 @@
     (function(){
       const form = document.getElementById('mockForm');
       const toast = document.getElementById('toast');
-      // Comportamento "fake" para o upload
-      const fake = document.querySelector('.fake-file');
-      if(fake){
-        fake.addEventListener('click', ()=>{
-          toast.textContent = 'Prévia: selecionei um arquivo fictício.';
-          toast.classList.add('show');
-          setTimeout(()=>toast.classList.remove('show'), 1800);
-        });
-      }
       form.addEventListener('submit', function(ev){
         ev.preventDefault();
         toast.textContent = 'Prévia: nenhuma resposta foi enviada.';
