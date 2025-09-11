@@ -49,7 +49,7 @@
     .q .req{color:var(--error);margin-left:6px}
     .q small{display:block;color:var(--muted);margin-top:6px}
 
-    input[type="text"], input[type="email"], textarea, select, input[type="date"], input[type="time"]{
+    input[type="text"], input[type="email"], textarea, select{
       width:100%;border:1px solid #dadce0;border-radius:4px;padding:12px 14px;font-size:15px;background:#fff
     }
     textarea{min-height:110px;resize:vertical}
@@ -92,7 +92,7 @@
     </div>
 
     <div class="q">
-      <p class="label">E‑mail<span class="req">*</span></p>
+      <p class="label">E-mail<span class="req">*</span></p>
       <input type="email" placeholder="voce@exemplo.com" aria-required="true" required />
       <small>Usado para contato durante o processo.</small>
     </div>
@@ -136,14 +136,12 @@
       </select>
     </div>
 
-    <!-- Data / Hora -->
-    <div class="q">
-      <p class="label">Data de nascimento</p>
-      <input type="date" />
-    </div>
-    <div class="q">
-      <p class="label">Melhor horário para contato</p>
-      <input type="time" />
+    <!-- Melhor horário (múltipla escolha) -->
+    <div class="q" role="group" aria-labelledby="besttime">
+      <p id="besttime" class="label">Melhor horário para contato</p>
+      <label class="choice"><input type="radio" name="best_time" value="Manhã" /> Manhã</label>
+      <label class="choice"><input type="radio" name="best_time" value="Tarde" /> Tarde</label>
+      <label class="choice"><input type="radio" name="best_time" value="Noite" /> Noite</label>
     </div>
 
     <!-- Ações -->
@@ -168,6 +166,9 @@
           // Repasse UTMs da URL atual, se existirem
           const params = new URLSearchParams(window.location.search);
           params.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
+          // (opcional) enviar best_time como query, se você quiser capturar
+          const best = form.querySelector('input[name="best_time"]:checked');
+          if(best) url.searchParams.set('best_time', best.value);
           window.location.assign(url.toString());
         }catch(e){
           window.location.assign(NEXT);
