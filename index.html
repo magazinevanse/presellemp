@@ -4,15 +4,15 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pré‑seleção – Entrevista de Emprego</title>
-  <meta name="description" content="Página de pré‑seleção para entrevista de emprego. Responda para seguir ao formulário." />
+  <title>Pré-seleção – Entrevista de Emprego</title>
+  <meta name="description" content="Página de pré-seleção para entrevista de emprego. Responda para seguir ao formulário." />
   <meta name="theme-color" content="#0ea5e9" />
   <!-- Open Graph para prévia no Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Pré‑seleção – Entrevista de Emprego" />
+  <meta property="og:title" content="Pré-seleção – Entrevista de Emprego" />
   <meta property="og:description" content="Responda à pergunta e avance para o formulário oficial." />
-  <meta property="og:image" content="" /> <!-- opcional: coloque uma imagem absoluta (1200x630) -->
-  <meta property="og:url" content="" /> <!-- opcional: URL final publicada -->
+  <meta property="og:image" content="" />
+  <meta property="og:url" content="" />
   <style>
     :root{
       --bg1:#0ea5e9; /* sky-500 */
@@ -99,18 +99,18 @@
       <span class="tag" aria-label="etiqueta">
         <!-- ícone currículo -->
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6"/><path d="M14 3v4a1 1 0 0 0 1 1h4" stroke="currentColor" stroke-width="1.6"/></svg>
-        Pré‑seleção
+        Pré-seleção
       </span>
       <p class="subtitle">Responda abaixo para avançar ao formulário oficial.</p>
     </header>
 
     <section class="content">
-
       <div class="cta" role="group" aria-labelledby="q1">
         <h2 id="q1" class="q">Você tem <u>7 horas por dia</u> para se dedicar à nossa empresa trabalhando em “Home Office”?<small>Selecione uma opção para seguir ao formulário.</small></h2>
         <div class="choices">
-          <a id="ctaSim" class="btn" href="#" target="_blank" rel="noopener" aria-label="Sim, tenho 7 horas por dia">✅ Sim</a>
-          <a id="ctaNao" class="btn" href="#" target="_blank" rel="noopener" aria-label="Não, não tenho 7 horas por dia">❌ Não</a>
+          <!-- REMOVIDO target=\"_blank\" -->
+          <a id="ctaSim" class="btn" href="#" aria-label="Sim, tenho 7 horas por dia">✅ Sim</a>
+          <a id="ctaNao" class="btn" href="#" aria-label="Não, não tenho 7 horas por dia">❌ Não</a>
         </div>
       </div>
     </section>
@@ -123,27 +123,39 @@
 
   <noscript>
     <div style="max-width:980px;margin:12px auto;color:#fff;text-align:center">
-      Para continuar, ative o JavaScript ou <a style="color:#fff;text-decoration:underline" href="https://presellemp.vercel.app/pagina1.html" target="_blank" rel="noopener">clique aqui</a>.
+      <!-- trocar para mesma aba -->
+      Para continuar, ative o JavaScript ou <a style="color:#fff;text-decoration:underline" href="https://presellemp.vercel.app/pagina1.html">clique aqui</a>.
     </div>
   </noscript>
 
   <script>
     (function(){
       const destBase = document.body.getAttribute('data-dest');
-      try{
-        const url = new URL(destBase);
-        // Repasse dos parâmetros UTM da página para o destino
-        const paramsHere = new URLSearchParams(window.location.search);
-        paramsHere.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
-        const finalUrl = url.toString();
-        const ids = ['ctaSim','ctaNao'];
-        ids.forEach(id=>{ const a = document.getElementById(id); if(a) a.href = finalUrl; });
-      }catch(e){
-        // fallback simples
-        ['ctaSim','ctaNao'].forEach(id=>{
-          const a = document.getElementById(id); if(a) a.href = destBase;
-        });
+      function makeFinalUrl() {
+        try{
+          const url = new URL(destBase);
+          const paramsHere = new URLSearchParams(window.location.search);
+          paramsHere.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
+          return url.toString();
+        }catch(e){
+          return destBase;
+        }
       }
+
+      const finalUrl = makeFinalUrl();
+      ['ctaSim','ctaNao'].forEach(id=>{
+        const a = document.getElementById(id);
+        if(!a) return;
+        a.removeAttribute('target');     // garante mesma aba
+        a.removeAttribute('rel');        // opcional
+        a.href = finalUrl;               // comportamento padrão do link (mesma aba)
+
+        // Se preferir forçar via JS (mesma aba):
+        a.addEventListener('click', function(ev){
+          ev.preventDefault();
+          location.assign(finalUrl);
+        });
+      });
     })();
   </script>
 </body>
