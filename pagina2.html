@@ -3,14 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- viewport-fit=cover garante espaço para notch -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Pré-seleção – Confirmação de Identidade</title>
-  <meta name="description" content="Página de pré-seleção: confirme sua identidade e avance para o formulário." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pré‑seleção – Confirmação de Identidade</title>
+  <meta name="description" content="Página de pré‑seleção: confirme sua identidade e avance para o formulário." />
   <meta name="theme-color" content="#0ea5e9" />
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Pré-seleção – Confirmação de Identidade" />
+  <meta property="og:title" content="Pré‑seleção – Confirmação de Identidade" />
   <meta property="og:description" content="Escolha o tipo de documento, anexe seus arquivos e avance." />
   <meta property="og:image" content="" />
   <meta property="og:url" content="" />
@@ -42,7 +41,6 @@
       overflow:hidden;
       border:1px solid rgba(15,23,42,.06);
       animation:pop .35s ease;
-      margin-top: env(safe-area-inset-top, 0); /* garante espaço extra em telas com notch */
     }
     @keyframes pop{from{transform:translateY(8px);opacity:.0}to{transform:translateY(0);opacity:1}}
 
@@ -50,8 +48,6 @@
       background:linear-gradient(135deg, #38bdf8, #2563eb);
       color:white;
       padding:32px 28px 24px;
-      /* adiciona padding extra em aparelhos com notch */
-      padding-top:calc(32px + env(safe-area-inset-top, 0));
     }
     .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 10px;border-radius:999px;font-size:12px;letter-spacing:.2px}
     .title{margin:12px 0 6px;font-weight:800;line-height:1.1;font-size: clamp(22px, 4.5vw, 34px)}
@@ -63,17 +59,13 @@
     .section h3{margin:0 0 12px;font-size:18px}
 
     .radios{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-    .radio{
-      display:flex;align-items:center;gap:10px;padding:12px;border:1px solid rgba(15,23,42,.10);border-radius:12px;background:#fff;cursor:pointer
-    }
+    .radio{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid rgba(15,23,42,.10);border-radius:12px;background:#fff;cursor:pointer}
     .radio input{accent-color:#2563eb;width:18px;height:18px}
 
     .filebox{padding:14px;background:#fff;border:1px dashed rgba(15,23,42,.18);border-radius:12px}
 
     .actions{display:flex;justify-content:flex-end}
-    .btn{
-      appearance:none;border:0;cursor:pointer;background:#1d4ed8;color:#fff;border-radius:12px;padding:12px 18px;font-weight:800;font-size:16px;display:inline-flex;align-items:center;gap:8px
-    }
+    .btn{appearance:none;border:0;cursor:pointer;background:#1d4ed8;color:#fff;border-radius:12px;padding:12px 18px;font-weight:800;font-size:16px;display:inline-flex;align-items:center;gap:8px}
     .btn:hover{filter:brightness(1.05)}
     .btn:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
 
@@ -83,10 +75,6 @@
     .footer a{color:#2563eb;text-underline-offset:3px}
 
     @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
-
-    @media (max-width:480px){
-      .card{ margin-top:12px; } /* garante respiro em telas muito pequenas */
-    }
   </style>
 </head>
 <body data-next="https://docs.google.com/forms/d/e/1FAIpQLScPtyQmrCQJb0lSx0aOOf4HXtCaFUjPLeOXEhMZRmNJ-T2YaA/viewform?usp=header">
@@ -111,10 +99,19 @@
         <div id="err" class="error">Selecione um tipo de documento para continuar.</div>
       </div>
 
+      <div class="section" role="group" aria-labelledby="timelabel">
+        <h3 id="timelabel">Melhor horário para contato</h3>
+        <div class="radios">
+          <label class="radio" for="hr_manha"><input id="hr_manha" name="besttime" type="radio" value="Manhã" /> Manhã</label>
+          <label class="radio" for="hr_tarde"><input id="hr_tarde" name="besttime" type="radio" value="Tarde" /> Tarde</label>
+          <label class="radio" for="hr_noite"><input id="hr_noite" name="besttime" type="radio" value="Noite" /> Noite</label>
+        </div>
+      </div>
+
       <div class="section">
         <h3>Envie as imagens do documento</h3>
         <div class="filebox">
-          <!-- EMBED Fileinbox -->
+          <!-- EMBED Fileinbox: usa o serviço externo, sem salvar nada localmente -->
           <a href="https://fileinbox.com/enviodeinformacoes" class="fileinbox">Send files with fileinbox.com</a>
           <script type="text/javascript" src="https://fileinbox.com/embed.js"></script>
         </div>
@@ -150,10 +147,12 @@
         }
         try{
           const url = new URL(nextBase);
-          // repassar UTMs e anexar doc_type
+          // repassar UTMs e anexar doc_type + besttime (se houver)
           const paramsHere = new URLSearchParams(window.location.search);
           paramsHere.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
           url.searchParams.set('doc_type', type);
+          const best = document.querySelector('input[name="besttime"]:checked');
+          if(best) url.searchParams.set('best_time', best.value);
           window.location.assign(url.toString()); // mesma aba
         }catch(e){
           window.location.assign(nextBase);
