@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Auto Gnv – Política de Privacidade, Termos e Informações Legais</title>
+  <meta name="description" content="Página institucional white e responsiva para Auto Gnv Comércio de Peças e Serviços Automotivos LTDA — políticas, termos e informações legais." />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#0b1220;background:#fff;line-height:1.6}
+    :root{
+      --brand1:#0b2a45; /* azul aço */
+      --brand2:#2b6f8f; /* azul médio */
+      --accent:#ffb020; /* amarelo/âmbar para CTA */
+      --muted:#6b7280;
+      --paper:#ffffff;
+      --soft:#f7fafc;
+      --ring:#e6eef6;
+      --radius:12px;
+      --shadow:0 12px 30px rgba(2,6,23,.08);
+      --container:1200px;
+    }
+    .container{max-width:var(--container);margin:0 auto;padding:0 20px}
+    header{background:linear-gradient(135deg,var(--brand1),var(--brand2));color:#fff;position:sticky;top:0;z-index:50}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand-logo{width:48px;height:48px;border-radius:10px;background:#fff8f0;color:var(--brand1);display:grid;place-items:center;font-weight:800}
+    .brand h1{font-size:1.25rem}
+    .brand small{display:block;opacity:.9;font-weight:600}
+    nav ul{list-style:none;display:flex;gap:12px}
+    nav a{color:#eaf6ff;text-decoration:none;padding:.5rem .8rem;border-radius:8px;font-weight:700}
+    nav a:hover{background:rgba(255,255,255,.06)}
+    .menu-btn{display:none;background:none;border:0;color:#fff;font-size:1.5rem}
+    .hero{padding:56px 0;background:linear-gradient(180deg,rgba(11,42,69,.04),transparent)}
+    .hero .wrap{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
+    .hero h2{color:var(--brand1);font-size:2rem;margin-bottom:8px}
+    .hero p{color:#0b1220;opacity:.9}
+    .card{background:var(--paper);border:1px solid var(--ring);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .bullets{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .bullet{background:var(--soft);padding:12px;border-radius:10px;border:1px solid var(--ring);font-weight:700;color:var(--brand1)}
+    .section{padding:50px 0}
+    .section.soft{background:#fbfdff}
+    .title{color:var(--brand1);text-align:center;font-size:1.75rem;margin-bottom:8px}
+    .subtitle{color:var(--muted);text-align:center;max-width:820px;margin:0 auto 24px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    details{background:#fff;border:1px solid var(--ring);border-radius:12px;padding:12px}
+    summary{cursor:pointer;font-weight:800}
+    summary::marker{display:none}
+    summary::after{content:"\25BE";float:right}
+    details[open] summary::after{transform:rotate(180deg)}
+    .legal{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .badge{display:inline-block;background:#fff8e6;border-radius:999px;padding:.4rem .7rem;color:#6a3f00;font-weight:800;border:1px solid #ffe7c2}
+    .list{list-style:none}
+    .list li{padding:8px 0;border-bottom:1px dashed var(--ring);color:#0b1220}
+    footer{background:var(--brand1);color:#eaf6ff;padding:28px 0;margin-top:30px}
+    .footgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+    .copyright{margin-top:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:12px;font-size:.9rem;opacity:.9}
+    @media(max-width:900px){
+      .hero .wrap{grid-template-columns:1fr}
+      .legal{grid-template-columns:1fr}
+      nav ul{display:none}
+      .menu-btn{display:block}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden>AG</div>
+        <div>
+          <h1>Auto Gnv</h1>
+          <small>Comércio de Peças e Serviços Automotivos</small>
+        </div>
+      </div>
+      <nav aria-label="Navegação principal">
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#politicas">Privacidade</a></li>
+          <li><a href="#termos">Termos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <button class="menu-btn" onclick="toggleNav()">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <div class="container wrap">
+        <div>
+          <h2>Política de Privacidade & Termos de Uso</h2>
+          <p>Compromisso com a proteção de dados e transparência no tratamento das informações dos nossos clientes e fornecedores.</p>
+          <div class="bullets">
+            <div class="bullet">Segurança</div>
+            <div class="bullet">Transparência</div>
+            <div class="bullet">Controle</div>
+          </div>
+        </div>
+
+        <aside class="card">
+          <h3 style="color:var(--brand1)">Resumo Rápido</h3>
+          <p>Coletamos apenas os dados necessários (nome, e-mail, telefone, dados para faturamento) para processar pedidos, prestar serviços e cumprir obrigações legais.</p>
+          <ul class="list" style="margin-top:10px">
+            <li>✔ Base legal: execução de contrato e obrigação legal</li>
+            <li>✔ Compartilhamento apenas com fornecedores essenciais</li>
+            <li>✔ Direitos: acesso, retificação, exclusão e portabilidade</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="politicas" class="section soft">
+      <div class="container">
+        <h2 class="title">Política de Privacidade</h2>
+        <p class="subtitle">Como tratamos, protegemos e disponibilizamos seus dados quando você interage com a Auto Gnv.</p>
+
+        <div class="grid" style="margin-top:18px">
+          <article class="card"><h3>Coleta mínima</h3><p>Solicitamos apenas os dados estritamente necessários para emitir nota fiscal, contato e suporte técnico.</p></article>
+          <article class="card"><h3>Finalidades</h3><p>Atendimento, faturamento, logística de peças e comunicados comerciais quando autorizado.</p></article>
+          <article class="card"><h3>Segurança</h3><p>Aplicamos medidas técnicas e administrativas para proteger seus dados contra acessos não autorizados.</p></article>
+          <article class="card"><h3>Retenção</h3><p>Dados são mantidos pelo tempo necessário para cumprir obrigações fiscais e legais.</p></article>
+        </div>
+
+        <div style="margin-top:20px">
+          <details>
+            <summary>Quais dados coletamos</summary>
+            <div style="margin-top:8px;color:#223044">
+              <ul style="margin-left:18px">
+                <li>Identificação: nome/razão social, CPF/CNPJ quando necessário.</li>
+                <li>Contato: e-mail e telefone.</li>
+                <li>Dados fiscais: endereço para emissão de NF-e, inscrição estadual quando aplicável.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details style="margin-top:10px">
+            <summary>Bases legais e compartilhamento</summary>
+            <div style="margin-top:8px;color:#223044">
+              <p>Compartilhamos apenas com parceiros essenciais (contabilidade, meios de pagamento, logística) mediante contrato de confidencialidade.</p>
+            </div>
+          </details>
+
+          <details style="margin-top:10px">
+            <summary>Seus direitos</summary>
+            <div style="margin-top:8px;color:#223044">
+              <ul style="margin-left:18px">
+                <li>Acesso, correção, eliminação, portabilidade e oposição ao tratamento.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="termos" class="section">
+      <div class="container">
+        <h2 class="title">Termos de Uso</h2>
+        <p class="subtitle">Regras para utilização de nossos serviços, compras e canais de comunicação.</p>
+
+        <div class="grid" style="margin-top:18px">
+          <article class="card"><h3>Acesso e contas</h3><p>A conta de cliente é pessoal. Não compartilhe suas credenciais.</p></article>
+          <article class="card"><h3>Propriedade intelectual</h3><p>Conteúdos, imagens e marcas são protegidos por lei.</p></article>
+          <article class="card"><h3>Pedidos e garantias</h3><p>Condições de venda, prazos e garantia seguem o previsto na legislação e na nota fiscal.</p></article>
+          <article class="card"><h3>Responsabilidades</h3><p>Não nos responsabilizamos por uso indevido de peças ou instalações externas feitas por terceiros.</p></article>
+        </div>
+
+        <div style="margin-top:18px">
+          <details>
+            <summary>Conduta do usuário</summary>
+            <div style="margin-top:8px;color:#223044">É proibido uso de linguagem ofensiva, tentativa de invasão ou violação de direitos de terceiros.</div>
+          </details>
+
+          <details style="margin-top:10px">
+            <summary>Foro</summary>
+            <div style="margin-top:8px;color:#223044">A legislação brasileira é aplicável. Fica eleito o foro do Rio de Janeiro/RJ para resolver disputas.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="section soft">
+      <div class="container">
+        <h2 class="title">Informações da Empresa</h2>
+        <p class="subtitle">Dados mínimos para contato e identificação do controlador de dados.</p>
+
+        <div class="legal">
+          <div class="card">
+            <span class="badge">Empresa</span>
+            <ul class="list" style="margin-top:10px">
+              <li>Razão social: <strong>Auto Gnv Comércio de Peças e Serviços Automotivos LTDA</strong></li>
+              <li>Nome fantasia: <strong>Auto Gnv</strong></li>
+              <li>CNPJ: <strong>24.507.449/0001-09</strong> (<span>24507449000109</span>)</li>
+              <li>Capital social: <strong>R$ 50.000,00</strong></li>
+              <li>Situação: <strong>Ativa (desde 01/04/2016)</strong></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="badge">Contato</span>
+            <ul class="list" style="margin-top:10px">
+              <li>E-mail: <a href="mailto:alexandroespim@gmail.com">alexandroespim@gmail.com</a></li>
+              <li>Telefone/WhatsApp: <a href="tel:+5521964088682">(21) 96408-8682</a></li>
+              <li>Endereço: Rua Gondola, 21 – Loja B, Curicica, Rio de Janeiro – RJ • CEP 22780-410</li>
+            </ul>
+            <div style="margin-top:12px">
+              <a class="btn" style="background:var(--accent);color:#1b1200;padding:.6rem .9rem;border-radius:10px;font-weight:800;text-decoration:none" href="#politicas">Ver Política</a>
+              <a class="btn" style="margin-left:8px;border:2px solid var(--brand1);color:var(--brand1);background:transparent;padding:.6rem .9rem;border-radius:10px;font-weight:800;text-decoration:none" href="#termos">Termos</a>
+            </div>
+            <p style="margin-top:12px;color:var(--muted);font-size:.95rem">Última atualização: <strong>25/10/2025</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footgrid">
+        <div>
+          <h4 style="color:#fff">Auto Gnv</h4>
+          <p style="color:#e6f6ff">Auto Gnv Comércio de Peças e Serviços Automotivos LTDA • CNPJ 24.507.449/0001-09</p>
+        </div>
+        <div>
+          <h4 style="color:#fff">Contato</h4>
+          <p style="color:#e6f6ff"><a href="mailto:alexandroespim@gmail.com" style="color:inherit;text-decoration:none">alexandroespim@gmail.com</a></p>
+          <p style="color:#e6f6ff"><a href="tel:+5521964088682" style="color:inherit;text-decoration:none">(21) 96408-8682</a></p>
+        </div>
+        <div>
+          <h4 style="color:#fff">Atalhos</h4>
+          <p style="color:#e6f6ff"><a href="#politicas" style="color:inherit;text-decoration:none">Política de Privacidade</a></p>
+          <p style="color:#e6f6ff"><a href="#termos" style="color:inherit;text-decoration:none">Termos de Uso</a></p>
+        </div>
+      </div>
+      <div class="copyright" style="color:#dbefff">© 2025 Auto Gnv. Todos os direitos reservados.</div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav(){
+      const ul = document.querySelector('nav ul');
+      if(!ul) return; ul.style.display = (getComputedStyle(ul).display==='none'?'flex':'none');
+    }
+    // Cookie banner simple (optional)
+    const KEY='cookie_consent_auto_gnv';
+    if(!localStorage.getItem(KEY)){
+      const bar = document.createElement('div');
+      bar.style= 'position:fixed;inset:auto 16px 16px 16px;background:#082031;color:#e9f7ff;padding:12px;border-radius:12px;z-index:60;display:flex;gap:10px;align-items:center;box-shadow:0 12px 40px rgba(0,0,0,.25)';
+      bar.innerHTML = '<div style="flex:1;font-size:14px">Usamos cookies para melhorar sua experiência. Consulte a <a href="#politicas" style="color:#ffd38a;text-decoration:underline">Política de Privacidade</a>.</div>';
+      const ok = document.createElement('button'); ok.textContent='Aceitar'; ok.style='background:var(--accent);border:0;padding:.5rem .7rem;border-radius:8px;font-weight:800;cursor:pointer';
+      ok.onclick = ()=>{localStorage.setItem(KEY,'1');bar.remove()};
+      bar.appendChild(ok); document.body.appendChild(bar);
+    }
+  </script>
+</body>
+</html>
