@@ -142,6 +142,7 @@
     100% {
     background-position: 100% 0;
 }
+
 }/* End custom CSS */
 /* Start custom CSS for icon-box, class: .elementor-element-d78e629 */.elementor-10 .elementor-element.elementor-element-d78e629{
  backdrop-filter: blur(5px);
@@ -159,3 +160,21 @@
  backdrop-filter: blur(5px);
 -webkit-backdrop-filter:  blur(7px);
 }/* End custom CSS */
+
+
+
+
+
+/* === SUBSTITUIR IMAGEM MOBILE (HERO) === */
+@media (max-width: 767px) {
+  .elementor-10 .elementor-element.elementor-element-74173e6 {
+    background-image: url("https://www.ateccell.com/sss1/images/banner2-home-techcellsp-mobilev2.webp") !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top center;
+
+    /* desativa imagens antigas do clone / WP Rocket */
+    --wpr-bg-8252d4ef-51cb-4e74-a938-1228f3f98b45: none !important;
+    --wpr-bg-cf24bbe4-3a8e-465a-9d23-efd230798e3e: none !important;
+  }
+}
